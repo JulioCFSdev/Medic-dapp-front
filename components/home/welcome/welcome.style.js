@@ -20,6 +20,17 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     marginTop: 2,
   },
+  input: {
+    width: '80%',
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    marginTop: 200,
+    marginLeft: 40
+  },
   searchContainer: {
     justifyContent: "center",
     alignItems: "center",

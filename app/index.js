@@ -1,50 +1,64 @@
-import { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, Image } from "react-native";
-import { Stack, useRouter } from "expo-router";
+import React from 'react';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from 'react-native-splash-screen';
+import Patient from './patient';
 
+import { COLORS, SIZES } from '../constants';
+import { Welcome } from '../components';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView } from 'react-native-gesture-handler';
+import styles from '../components/home/welcome/welcome.style';
 
-import {COLORS, icons, SIZES} from '../constants';
-import{Nearbyjobs, Popularjobs, ScreenHeaderBtn, Welcome} from '../components';
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView } from "react-native-gesture-handler";
-import styles from "../components/home/welcome/welcome.style";
+const Stack = createStackNavigator();
 
-const Home = () =>{
-    const router = useRouter();
-    return(
-        <SafeAreaView style={{flex: 1, backgroundColor: COLORS.lightWhite}}>
-            <Stack.Screen
-                options={{
-                    headerStyle:{backgroundColor: COLORS.lightWhite},
-                    headerShadowVisible: false,
-                    headerTitle: "Login",
-                    headerTitleAlign: "center"
-                }}
-            />
+const HomeScreen = ({ navigation }) => {
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={{
+            flex: 1,
+            padding: SIZES.medium,
+          }}
+        >
+          <Image source={require('../assets/images/Logo.png')} style={styles.image} />
 
-            <ScrollView showsVerticalScrollIndicator = {false}>
-                <View style={{
-                        flex:1,
-                        padding: SIZES.medium
-                    }}>
+          <Welcome></Welcome>
 
-                    <Image source={require('../assets/images/Logo.png')} style={styles.image}/>
+          <TouchableOpacity style={styles.searchBtn} onPress={() => {}}>
+            <Text style={{ color: 'white' }}>Médico</Text>
+          </TouchableOpacity>
 
-                    <Welcome></Welcome>
+          <TouchableOpacity
+            style={styles.searchBtn2}
+            onPress={() => navigation.navigate('Patient')}
+          >
+            <Text style={{ color: 'white' }}>Paciente</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
-                    <TouchableOpacity style={styles.searchBtn} onPress={()=>{}}>
-                        <Text style = {{color: "white"}}>Médico</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.searchBtn2} onPress={()=>{}}>
-                        <Text style = {{color: "white"}}>Paciente</Text>
-                    </TouchableOpacity>
-
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    )
-}
+const Home = () => {
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerStyle: { backgroundColor: COLORS.lightWhite },
+          headerShadowVisible: false,
+          headerTitle: 'Login',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen name="Patient" component={Patient} />
+    </Stack.Navigator>
+  );
+};
 
 export default Home;
