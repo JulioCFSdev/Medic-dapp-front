@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from 'react-native-splash-screen';
 import Patient from './patient';
 
+
 import { COLORS, SIZES } from '../constants';
 import { Welcome } from '../components';
 import { SafeAreaView } from 'react-native-safe-area-context';

@@ -1,23 +1,17 @@
+import React from 'react';
 import { useState } from "react";
 import { View, Text, TouchableOpacity, TextInput, Image, FlatList } from "react-native";
-import { Stack, useRouter } from "expo-router";
-import SplashScreen from 'react-native-splash-screen';
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import ScrollBarIndicator from 'react-native-scroll-indicator';
-import { Picker } from '@react-native-picker/picker';
+import { Stack} from "expo-router";
 
 
 import {COLORS, icons, SIZES} from '../constants';
-import{Nearbyjobs, Popularjobs, ScreenHeaderBtn, Welcome} from '../components';
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView } from "react-native-gesture-handler";
 import styles from "../components/home/welcome/welcome.style";
+
+import Exam from './Exam';
 
 
 const Patient = ({navigation}) =>{
-    const router = useRouter();
     const [inputValue, setInputValue] = useState('');
 
     const handleInputChange = (text) => {
@@ -32,9 +26,9 @@ const Patient = ({navigation}) =>{
     };
 
     const data = [
-        { id: '1', text: 'Exame 1' ,image1: require('../assets/images/edit.png'), image2: require('../assets/images/trash.png') },
-        { id: '2', text: 'Exame 2', image1: require('../assets/images/edit.png'), image2: require('../assets/images/trash.png') },
-        { id: '3', text: 'Exame 3', image1: require('../assets/images/edit.png'), image2: require('../assets/images/trash.png')},
+        { id: '1', text: 'Exame 1 - xx/xx/xx' ,image1: require('../assets/images/edit.png'), image2: require('../assets/images/trash.png') },
+        { id: '2', text: 'Exame 2 - xx/xx/xx', image1: require('../assets/images/edit.png'), image2: require('../assets/images/trash.png') },
+        { id: '3', text: 'Exame 3 - xx/xx/xx', image1: require('../assets/images/edit.png'), image2: require('../assets/images/trash.png')},
         // ... outros itens
       ];
 
@@ -71,15 +65,6 @@ const Patient = ({navigation}) =>{
     return(
         <SafeAreaView style={{flex: 1, backgroundColor: COLORS.lightWhite}}>
 
-            <Stack.Screen
-                    options={{
-                    headerStyle: { backgroundColor: COLORS.lightWhite },
-                    headerShadowVisible: false,
-                    headerTitle: 'Home',
-                    headerTitleAlign: 'center',
-                    }}
-                />
-
             <Image source={require('../assets/images/profile.png')} style={styles.profile} />
 
             <Text style={styles.welcomeMessage}>Bem Vindo Paciente!</Text>
@@ -103,7 +88,7 @@ const Patient = ({navigation}) =>{
                 <Text style={{ color: 'white' }}>Gerar QR Code</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.ExamBtn2} onPress={() => {}}>
+            <TouchableOpacity style={styles.ExamBtn2} onPress={() => navigation.navigate('Exam')}>
                 <Text style={{ color: 'white' }}>+</Text>
             </TouchableOpacity>
 
@@ -111,5 +96,23 @@ const Patient = ({navigation}) =>{
         </SafeAreaView>
     )
 }
+
+const PatientNav = () => {
+    return (
+      <Stack.Navigator initialRouteName="Patient">
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            headerStyle: { backgroundColor: COLORS.lightWhite },
+            headerShadowVisible: false,
+            headerTitle: 'Home',
+            headerTitleAlign: 'center',
+          }}
+        />
+        <Stack.Screen name="Exam" component={Exam} />
+      </Stack.Navigator>
+    );
+  };
 
 export default Patient;

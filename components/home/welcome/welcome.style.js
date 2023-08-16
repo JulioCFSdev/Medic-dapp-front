@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     height: 80,
     textAlign: "center",
     justifyContent: "center",
-    fontFamily: FONT.bold,
     fontSize: SIZES.xLarge,
     color: COLORS.primary,
     marginTop: 2,
