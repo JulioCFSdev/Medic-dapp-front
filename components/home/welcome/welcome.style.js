@@ -6,6 +6,42 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
   },
+  listContainer:{
+    flex: 1,
+    padding: 20
+  },
+  button: {
+    backgroundColor: '#edf0ef',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    width: 42,
+    marginLeft: 230,
+    marginTop: -20
+  },
+  button2: {
+    backgroundColor: '#edf0ef',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    width: 42,
+    marginLeft: 290,
+    marginTop: -30
+  },
+  buttonImage: {
+    width: 20,
+    height: 20,
+    marginRight: 5,
+  },
+  
+  buttonText: {
+    color: 'white',
+  },
+  item: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    marginBottom: 10,
+  },
   userName: {
     fontFamily: FONT.regular,
     fontSize: SIZES.large,
@@ -28,7 +64,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
-    marginTop: 200,
+    marginTop: 50,
     marginLeft: 40
   },
   searchContainer: {
@@ -64,6 +100,47 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
+  row: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+  },
+
+  dropdown: {
+    width: 300,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginLeft: 40
+  },
+
+  selectedValue: {
+    marginTop: 20,
+  },
+
+  ExamBtn: {
+    width: 120,
+    height: 50,
+    marginLeft: 38,
+    backgroundColor: "black",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+
+  ExamBtn2: {
+    width: 120,
+    height: 50,
+    marginLeft: 238,
+    backgroundColor: "black",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    marginTop: -58.9
+  },
+
   searchBtn2: {
     width: 120,
     height: 50,
@@ -80,6 +157,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 50
+  },
+
+  profile:{
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 100
   },
 
   searchBtnImage: {
