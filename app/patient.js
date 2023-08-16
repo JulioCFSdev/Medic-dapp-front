@@ -82,6 +82,8 @@ const Patient = ({navigation}) =>{
 
             <Image source={require('../assets/images/profile.png')} style={styles.profile} />
 
+            <Text style={styles.welcomeMessage}>Bem Vindo Paciente!</Text>
+
             <TextInput
                 style={styles.input}
                 value={inputValue}

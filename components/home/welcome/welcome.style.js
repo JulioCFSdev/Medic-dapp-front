@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 5,
     width: 42,
-    marginLeft: 290,
+    marginLeft: 280,
     marginTop: -30
   },
   buttonImage: {
