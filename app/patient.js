@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, TextInput, Image, FlatList } from "react-
 import { Stack} from "expo-router";
 
 
-import {COLORS, icons, SIZES} from '../constants';
+import {COLORS} from '../constants';
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../components/home/welcome/welcome.style";
 
