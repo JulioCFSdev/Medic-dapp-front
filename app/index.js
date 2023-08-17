@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from 'react-native-splash-screen';
 import Patient from './patient';
+import Scanner from './MedicoScanner';
 
 
 import { COLORS, SIZES } from '../constants';
@@ -28,7 +29,7 @@ const HomeScreen = ({ navigation }) => {
 
           <Welcome></Welcome>
 
-          <TouchableOpacity style={styles.searchBtn} onPress={() => { }}>
+          <TouchableOpacity style={styles.searchBtn} onPress={() => navigation.navigate('MedicoScanner')}>
             <Text style={{ color: 'white' }}>Médico</Text>
           </TouchableOpacity>
 
@@ -58,6 +59,7 @@ const Home = () => {
         }}
       />
       <Stack.Screen name="Patient" component={Patient} />
+      <Stack.Screen name="MedicoScanner" component={Scanner} />
     </Stack.Navigator>
   );
 };
