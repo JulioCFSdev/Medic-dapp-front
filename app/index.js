@@ -62,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const renderWebWarning = () => {
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' || Platform.OS === 'android') {
       return (
         WebRedirect()
       );
