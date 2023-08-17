@@ -6,9 +6,35 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
   },
-  listContainer:{
+  listContainer: {
     flex: 1,
     padding: 20
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: -30,
+    marginLeft: 35
+  },
+  fieldContainer: {
+    marginBottom: 20,
+  },
+  Filecontainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  Filebutton: {
+    backgroundColor: '#3498db',
+    padding: 10,
+    borderRadius: 5,
+  },
+  FilebuttonText: {
+    color: 'white',
+  },
+  fileInfo: {
+    marginTop: 20,
   },
   button: {
     backgroundColor: '#edf0ef',
@@ -33,7 +59,7 @@ const styles = StyleSheet.create({
     height: 20,
     marginRight: 5,
   },
-  
+
   buttonText: {
     color: 'white',
   },
@@ -140,6 +166,30 @@ const styles = StyleSheet.create({
     marginTop: -58.9
   },
 
+  ConBtn2: {
+    width: 120,
+    height: 50,
+    marginLeft: 238,
+    backgroundColor: "black",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 100,
+    marginTop: 20
+  },
+
+  FileBtn2: {
+    width: 180,
+    height: 50,
+    marginLeft: 40,
+    backgroundColor: "gray",
+    borderRadius: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    marginTop: -20
+  },
+
   searchBtn2: {
     width: 120,
     height: 50,
@@ -152,13 +202,13 @@ const styles = StyleSheet.create({
     marginTop: -58.9
   },
 
-  image:{
+  image: {
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 50
   },
 
-  profile:{
+  profile: {
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 100

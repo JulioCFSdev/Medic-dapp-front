@@ -28,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
 
           <Welcome></Welcome>
 
-          <TouchableOpacity style={styles.searchBtn} onPress={() => {}}>
+          <TouchableOpacity style={styles.searchBtn} onPress={() => { }}>
             <Text style={{ color: 'white' }}>Médico</Text>
           </TouchableOpacity>
 
