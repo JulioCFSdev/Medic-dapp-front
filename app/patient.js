@@ -9,6 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../components/home/welcome/welcome.style";
 
 import Exam from './Exam';
+import QR from './PatientQR';
 
 
 const Patient = ({ navigation }) => {
@@ -84,7 +85,7 @@ const Patient = ({ navigation }) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.ExamBtn} onPress={() => { }}>
+      <TouchableOpacity style={styles.ExamBtn} onPress={() => navigation.navigate('PatientQR')}>
         <Text style={{ color: 'white' }}>Gerar QR Code</Text>
       </TouchableOpacity>
 
@@ -111,6 +112,7 @@ const PatientNav = () => {
         }}
       />
       <Stack.Screen name="Exam" component={Exam} />
+      <Stack.Screen name="PatientQR" component={QR} />
     </Stack.Navigator>
   );
 };
