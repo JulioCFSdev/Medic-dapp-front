@@ -6,6 +6,8 @@
     },
     "name": "MedicalDapp",
     "slug": "MedicalDapp",
+    "sdk": " 32.0.0.0",
+    "platform": ["web", "android"],
     "splash": {
       "image": "./assets/images/Logo.png",
       "resizeMode": "contain",
