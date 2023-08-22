@@ -56,7 +56,6 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const WebRedirect = () => {
-    console.log("Entrou aqui")
     // Redirecionar para o site oficial do MetaMask
     Linking.openURL('https://metamask.io/');
   };
