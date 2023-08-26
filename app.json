@@ -4,6 +4,11 @@
     "web": {
       "bundler": "metro"
     },
+<<<<<<< Updated upstream
+=======
+    "sdkVersion": "47.0.0", 
+    "platforms": [ "web", "android", "ios" ],
+>>>>>>> Stashed changes
     "name": "MedicalDapp",
     "slug": "MedicalDapp",
     "splash": {
