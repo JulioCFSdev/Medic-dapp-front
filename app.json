@@ -4,8 +4,6 @@
     "web": {
       "bundler": "metro"
     },
-    "sdkVersion": "32.0.0", 
-    "platforms": [ "web", "android", "ios" ],
     "name": "MedicalDapp",
     "slug": "MedicalDapp",
     "splash": {
