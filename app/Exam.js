@@ -6,9 +6,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from '../components/home/welcome/welcome.style';
 import { COLORS } from '../constants';
 
-import { DocumentPicker } from 'react-native-document-picker'
-
-
 const Exam = () => {
   const [inputValue, setInputValue] = useState('');
   const [date, setDate] = useState(new Date());
@@ -32,26 +29,41 @@ const Exam = () => {
       toggleDatePicker(); // Fechar o DatePicker
     }
     toggleDatePicker(); // Fechar o DatePicker sem selecionar uma data
-
   };
 
-  const selectDoc = async () => {
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      uploadFileToPinata(selectedFile);
+    }
+  };
+
+  const uploadFileToPinata = async (file) => {
+    const apiUrl = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
+    const apiKey = '2950368f2865e792233f'; // Substitua pelo seu próprio API Key da Pinata
+
+    const formData = new FormData();
+    formData.append('file', file);
+
     try {
-      const doc = await DocumentPicker.pickMultiple({
-        type: [DocumentPicker.types.pdf],
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'pinata_api_key': apiKey,
+          'pinata_secret_api_key': '346c7884040db7f07357c75c30af1ae32f82b1fd235abaabb7a7771c9aa332b1', // Substitua pelo seu próprio Secret API Key da Pinata
+        },
+        body: formData,
       });
-      if (doc) {
-        console.log(doc);
-        setPickedFile(doc);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Arquivo foi pinado no IPFS:', data);
+        // Aqui você pode manipular a resposta do IPFS, por exemplo, armazenar o CID em algum lugar ou usá-lo de alguma forma.
       } else {
-        console.log('Seleção de documento cancelada');
+        console.error('Erro ao pinar o arquivo no IPFS');
       }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('Seleção de arquivo cancelada');
-      } else {
-        console.log(err);
-      }
+    } catch (error) {
+      console.error('Erro ao pinar o arquivo no IPFS:', error);
     }
   };
 
@@ -109,15 +121,20 @@ const Exam = () => {
         />
       </View>
 
-      <TouchableOpacity style={styles.FileBtn2} onPress={selectDoc}>
-        <Text style={{ color: 'white' }}>Inserir Arquivo do Exame</Text>
-      </TouchableOpacity>
+    
+      <View style={styles.fieldContainer}>
+        <Text style={styles.label}>Inserir Arquivo do Exame (PDF)</Text>
+        <input
+          type="file"
+          accept=".pdf"
+          onChange={handleFileChange}
+        />
+      </View>
 
       <TouchableOpacity style={styles.ConBtn2} onPress={() => {}}>
         <Text style={{ color: 'white' }}>Submeter</Text>
       </TouchableOpacity>
 
-      
     </SafeAreaView>
   );
 };

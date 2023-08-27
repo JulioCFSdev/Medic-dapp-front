@@ -234,6 +234,20 @@ const styles = StyleSheet.create({
     fontFamily: FONT.medium,
     color: activeJobType === item ? COLORS.secondary : COLORS.gray2,
   }),
+  input: {
+      backgroundColor: 'white',
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      margin: 10,
+      borderRadius: 5,
+    },
+    image: {
+      width: 200,
+      height: 200,
+      resizeMode: 'contain', // Você pode ajustar isso conforme necessário
+      alignSelf: 'center', // Alinhar a imagem ao centro horizontalmente
+      marginTop: 10, // Espaçamento acima da imagem
+    },
 });
 
 export default styles;
