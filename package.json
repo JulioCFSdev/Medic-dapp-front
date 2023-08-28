@@ -23,8 +23,8 @@
     "expo-status-bar": "~1.4.2",
     "link": "^1.5.1",
     "quagga": "^0.12.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-native": "^0.71.3",
     "react-native-camera": "^4.2.1",
     "react-native-check-app-install": "^0.0.5",
@@ -43,6 +43,8 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.7",
+    "react-qr-reader": "^3.0.0-beta-1",
+    "react-webcam": "^7.1.1",
     "web3": "^4.1.1"
   },
   "devDependencies": {

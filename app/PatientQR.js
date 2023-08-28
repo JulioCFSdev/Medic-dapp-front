@@ -25,7 +25,7 @@ const QR = ({ navigation }) => {
     connectToMetaMask();
   }, []);
 
-  const qrData = `https://medicaldapp.com/patient/${userAddress}`;
+  const qrData = `Código do Paciente: ${userAddress}`;
 
   return (
     <View style={{ flex: 1, alignItems: "center", backgroundColor: COLORS.lightWhite }}>
