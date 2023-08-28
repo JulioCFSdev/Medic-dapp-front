@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Pressable, Platform, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Web3 from 'web3'; // Import web3 library
-
+import Web3 from 'web3';
 import styles from '../components/home/welcome/welcome.style';
 import { COLORS } from '../constants';
 import dataABI from '../components/dataABI.json';
