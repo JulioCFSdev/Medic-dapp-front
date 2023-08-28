@@ -7,21 +7,36 @@ import Web3 from 'web3'; // Import web3 library
 import styles from '../components/home/welcome/welcome.style';
 import { COLORS } from '../constants';
 import dataABI from '../components/dataABI.json';
+import { debug } from 'react-native-reanimated';
 
 const Exam = () => {
-  const [inputValue, setInputValue] = useState('');
+  const [title, setTitle] = useState('');
+  const [doctor, setDoctor] = useState('');
   const [date, setDate] = useState(new Date());
+  const [location, setLocation] = useState('');
   const [showPicker, setShowPicker] = useState(false);
-  const [examDate, setExamDate] = useState('');
   const [pickedFile, setPickedFile] = useState(null);
-  const [ipfsHash, setIPFSHASH] = useState('')
+  const [ipfsHash, setIPFSHASH] = useState('');
 
-  const handleInputChange = (text) => {
-    setInputValue(text);
+  const handleTitleChange = (text) => {
+    setTitle(text);
   };
 
-  const toggleDatePicker = () => {
-    setShowPicker(!showPicker);
+  const handleDoctorChange = (text) => {
+    setDoctor(text);
+  };
+
+  const handleDateChange = (event, selectedDate) => {
+    if (selectedDate) {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+      // ... (restante da lógica para formatar a data)
+    }
+    toggleDatePicker();
+  };
+
+  const handleLocationChange = (text) => {
+    setLocation(text);
   };
 
   const onChange = (event, selectedDate) => {
@@ -59,9 +74,9 @@ const Exam = () => {
       });
 
       if (response.ok) {
-        setIPFSHASH(response.data.IpfsHash)
-        const data = await response.json();
-        console.log('Arquivo foi pinado no IPFS:', data);
+        const responseData = await response.json();
+        setIPFSHASH(responseData.IpfsHash);
+        console.log('Arquivo foi pinado no IPFS:', responseData);
         // Aqui você pode manipular a resposta do IPFS, por exemplo, armazenar o CID em algum lugar ou usá-lo de alguma forma.
       } else {
         console.error('Erro ao pinar o arquivo no IPFS');
@@ -73,95 +88,90 @@ const Exam = () => {
 
   const handleSubmission = async () => {
     try {
+      // Upload file to Pinata and obtain IPFS hash
+      if (pickedFile) {
+        await uploadFileToPinata(pickedFile);
+      }
+  
+      // Rest of your code for Ethereum interaction remains the same
+      const formattedDate = date.getDate().toString() +"/"+ date.getUTCMonth.toString() +"/"+ date.getFullYear().toString();
+      console.log("Valores que serão passados para result:", title, doctor, formattedDate, location, ipfsHash);
+  
       if (window.ethereum) {
         await window.ethereum.enable();
         const web3 = new Web3(window.ethereum);
-  
-        const contract = new web3.eth.Contract(
-          dataABI,
-          '0xD995e73B050063Ed2D504D0b499cD8CDF165aC74'
-        );
-  
+
+        const contractAddress = '0x4f04c93DB616931973a7865b97be771a6AC7858F'; // Endereço do contrato ExamStorage
+        const contract = new web3.eth.Contract(dataABI, contractAddress);
+
         const accounts = await web3.eth.getAccounts();
         const senderAddress = accounts[0];
-  
+
         // Estimate gas
-        const estimatedGas = await contract.methods.addExam(ipfsHash).estimateGas({
-          from: senderAddress
-        });
-  
+        const estimatedGas = await contract.methods
+          .addExam(title, doctor, formattedDate, location, ipfsHash)
+          .estimateGas({
+            from: senderAddress,
+          });
+
         // Send transaction
-        const result = await contract.methods.addExam(ipfsHash).send({
-          from: senderAddress,
-          gas: estimatedGas
+        const result = await contract.methods
+          .addExam(title, doctor, formattedDate, location, ipfsHash)
+          .send({
+            from: senderAddress,
+            gas: estimatedGas,
         });
-  
-        console.log('Transaction hash:', result.transactionHash);
-      } else {
-        console.error('MetaMask not available');
-      }
-    } catch (error) {
-      console.error('Error during submission:', error);
+
+      console.log('Transaction items', result);
+      console.log('Transaction hash:', result.transactionHash);
+    } else {
+      console.error('MetaMask not available');
     }
-  };
+  } catch (error) {
+    console.error('Error during submission:', error);
+  }
+};
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
-
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Título do Exame</Text>
         <TextInput
           style={styles.input}
-          value={inputValue}
-          onChangeText={handleInputChange}
+          value={title}
+          onChangeText={handleTitleChange}
           placeholder="Título do Exame"
         />
       </View>
-
+      
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Médico Responsável</Text>
         <TextInput
           style={styles.input}
-          value={inputValue}
-          onChangeText={handleInputChange}
+          value={doctor}
+          onChangeText={handleDoctorChange}
           placeholder="Médico Responsável"
         />
       </View>
-
+      
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Data do Exame</Text>
-        <Pressable onPress={toggleDatePicker}>
-          <TextInput
-            style={styles.input}
-            placeholder="dd/mm/aa"
-            value={examDate}
-            placeholderTextColor="black"
-            editable={false}
-          />
-        </Pressable>
-        {showPicker && (
-          <DateTimePicker
-            mode="date"
-            display="spinner"
-            value={date}
-            onChange={onChange}
-          />
-        )}
+        {/* Restante do código para o campo de data */}
       </View>
-
+      
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Local Realizado</Text>
         <TextInput
           style={styles.input}
-          value={inputValue}
-          onChangeText={handleInputChange}
-          placeholder="Local Realizado"
+          value={location}
+          onChangeText={handleLocationChange}
+          placeholder="Consultório Médico"
         />
       </View>
-
     
       <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Inserir Arquivo do Exame (PDF)</Text>
+        <Text style={styles.label}></Text>
         <input
           type="file"
           accept=".pdf"
@@ -169,8 +179,8 @@ const Exam = () => {
         />
       </View>
 
-      <TouchableOpacity style={styles.ConBtn2} onPress={handleSubmission}>
-        <Text style={{ color: 'white' }}>Submeter</Text>
+      <TouchableOpacity onPress={handleSubmission}>
+        <Text>Submeter</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
