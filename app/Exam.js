@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { View, TextInput, Pressable, Platform, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Web3 from 'web3'; // Import web3 library
 
 import styles from '../components/home/welcome/welcome.style';
 import { COLORS } from '../constants';
+import dataABI from '../components/dataABI.json';
 
 const Exam = () => {
   const [inputValue, setInputValue] = useState('');
@@ -12,6 +14,7 @@ const Exam = () => {
   const [showPicker, setShowPicker] = useState(false);
   const [examDate, setExamDate] = useState('');
   const [pickedFile, setPickedFile] = useState(null);
+  const [ipfsHash, setIPFSHASH] = useState('')
 
   const handleInputChange = (text) => {
     setInputValue(text);
@@ -25,16 +28,16 @@ const Exam = () => {
     if (selectedDate) {
       const currentDate = selectedDate;
       setDate(currentDate);
-      setExamDate(currentDate.toDateString()); // Atualizar a data do exame
-      toggleDatePicker(); // Fechar o DatePicker
+      setExamDate(currentDate.toDateString());
+      toggleDatePicker();
     }
-    toggleDatePicker(); // Fechar o DatePicker sem selecionar uma data
+    toggleDatePicker();
   };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      uploadFileToPinata(selectedFile);
+      setPickedFile(selectedFile);
     }
   };
 
@@ -56,6 +59,7 @@ const Exam = () => {
       });
 
       if (response.ok) {
+        setIPFSHASH(response.data.IpfsHash)
         const data = await response.json();
         console.log('Arquivo foi pinado no IPFS:', data);
         // Aqui você pode manipular a resposta do IPFS, por exemplo, armazenar o CID em algum lugar ou usá-lo de alguma forma.
@@ -64,6 +68,40 @@ const Exam = () => {
       }
     } catch (error) {
       console.error('Erro ao pinar o arquivo no IPFS:', error);
+    }
+  };
+
+  const handleSubmission = async () => {
+    try {
+      if (window.ethereum) {
+        await window.ethereum.enable();
+        const web3 = new Web3(window.ethereum);
+  
+        const contract = new web3.eth.Contract(
+          dataABI,
+          '0xD995e73B050063Ed2D504D0b499cD8CDF165aC74'
+        );
+  
+        const accounts = await web3.eth.getAccounts();
+        const senderAddress = accounts[0];
+  
+        // Estimate gas
+        const estimatedGas = await contract.methods.addExam(ipfsHash).estimateGas({
+          from: senderAddress
+        });
+  
+        // Send transaction
+        const result = await contract.methods.addExam(ipfsHash).send({
+          from: senderAddress,
+          gas: estimatedGas
+        });
+  
+        console.log('Transaction hash:', result.transactionHash);
+      } else {
+        console.error('MetaMask not available');
+      }
+    } catch (error) {
+      console.error('Error during submission:', error);
     }
   };
 
@@ -131,10 +169,9 @@ const Exam = () => {
         />
       </View>
 
-      <TouchableOpacity style={styles.ConBtn2} onPress={() => {}}>
+      <TouchableOpacity style={styles.ConBtn2} onPress={handleSubmission}>
         <Text style={{ color: 'white' }}>Submeter</Text>
       </TouchableOpacity>
-
     </SafeAreaView>
   );
 };
