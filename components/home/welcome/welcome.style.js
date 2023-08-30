@@ -13,11 +13,11 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: -30,
     marginLeft: 35
   },
   fieldContainer: {
     marginBottom: 20,
+    marginRight: "65%"
   },
   Filecontainer: {
     flex: 1,
@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: '#f0f0f0',
     padding: 10,
+    marginLeft: 150,
+    marginRight: 150,
     marginBottom: 10,
   },
   userName: {
@@ -84,7 +86,9 @@ const styles = StyleSheet.create({
   input: {
     width: '80%',
     height: 50,
-    borderColor: 'gray',
+    borderColor: 'black',
+    backgroundColor: 'gray',
+    color: 'gray',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
@@ -117,10 +121,11 @@ const styles = StyleSheet.create({
   searchBtn: {
     width: 120,
     height: 50,
-    marginLeft: 20,
+    marginRight: 150,
     backgroundColor: "black",
     borderRadius: 10,
     justifyContent: "center",
+    alignSelf: "center",
     alignItems: "center",
     marginBottom: 10,
   },
@@ -146,24 +151,25 @@ const styles = StyleSheet.create({
   ExamBtn: {
     width: 120,
     height: 50,
-    marginLeft: 38,
+    marginLeft: "52%",
     backgroundColor: "black",
     borderRadius: 10,
     justifyContent: "center",
+    alignSelf: "center",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: -50,
   },
 
   ExamBtn2: {
     width: 120,
     height: 50,
-    marginLeft: 238,
+    marginLeft: "72%",
     backgroundColor: "black",
     borderRadius: 10,
     justifyContent: "center",
+    alignSelf: "center",
     alignItems: "center",
     marginBottom: 10,
-    marginTop: -58.9
   },
 
   ConBtn2: {
@@ -193,10 +199,11 @@ const styles = StyleSheet.create({
   searchBtn2: {
     width: 120,
     height: 50,
-    marginLeft: 220,
+    marginLeft: 150,
     backgroundColor: "black",
     borderRadius: 10,
     justifyContent: "center",
+    alignSelf: "center",
     alignItems: "center",
     marginBottom: 10,
     marginTop: -58.9
@@ -211,7 +218,7 @@ const styles = StyleSheet.create({
   profile: {
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 100
+    alignSelf: "center"
   },
 
   searchBtnImage: {
@@ -234,6 +241,20 @@ const styles = StyleSheet.create({
     fontFamily: FONT.medium,
     color: activeJobType === item ? COLORS.secondary : COLORS.gray2,
   }),
+  input: {
+      backgroundColor: 'white',
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      margin: 10,
+      borderRadius: 5,
+    },
+    image: {
+      width: 200,
+      height: 200,
+      resizeMode: 'contain', // Você pode ajustar isso conforme necessário
+      alignSelf: 'center', // Alinhar a imagem ao centro horizontalmente
+      marginTop: 10, // Espaçamento acima da imagem
+    },
 });
 
 export default styles;
