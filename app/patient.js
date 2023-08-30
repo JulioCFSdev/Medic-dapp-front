@@ -21,25 +21,18 @@ const Patient = ({ navigation }) => {
 
 
   const handleSubmit = () => {
-    // Aqui você pode fazer algo com o valor do campo de texto (inputValue)
-    // Por exemplo, exibir o valor no console:
     console.log('Valor do campo de texto:', inputValue);
   };
 
   const data = [
-    { id: '1', text: 'Exame 1 - xx/xx/xx', image1: require('../assets/images/edit.png'), image2: require('../assets/images/trash.png') },
-    { id: '2', text: 'Exame 2 - xx/xx/xx', image1: require('../assets/images/edit.png'), image2: require('../assets/images/trash.png') },
-    { id: '3', text: 'Exame 3 - xx/xx/xx', image1: require('../assets/images/edit.png'), image2: require('../assets/images/trash.png') },
-    // ... outros itens
+  
   ];
 
   const handleButtonPress = itemId => {
-    // Função para lidar com o pressionar do botão, usando o ID do item
     console.log('Botão pressionado para o item com ID:', itemId);
   };
 
   const handleButton2Press = itemId => {
-    // Função para lidar com o pressionar do botão 2, usando o ID do item
     console.log('Botão 2 pressionado para o item com ID:', itemId);
   };
 

@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import { View, TextInput, Pressable, Platform, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Platform, Text, TouchableOpacity } from 'react-native';
+
+// Importando SafeAreaView
 import { SafeAreaView } from 'react-native-safe-area-context';
-import DateTimePicker from '@react-native-community/datetimepicker';
+
+// Importando a biblioteca Web3 para interação com a blockchain
 import Web3 from 'web3';
+
+// Importando estilos e constantes
 import styles from '../components/home/welcome/welcome.style';
 import { COLORS } from '../constants';
 import dataABI from '../components/dataABI.json';
-import { debug } from 'react-native-reanimated';
 
+// Definindo o componente Exam para registrar exames
 const Exam = () => {
+  // Estados para os campos do exame
   const [title, setTitle] = useState('');
   const [doctor, setDoctor] = useState('');
   const [date, setDate] = useState(new Date());
@@ -17,6 +23,7 @@ const Exam = () => {
   const [pickedFile, setPickedFile] = useState(null);
   const [ipfsHash, setIPFSHASH] = useState('');
 
+  // Funções para lidar com as mudanças nos campos
   const handleTitleChange = (text) => {
     setTitle(text);
   };
@@ -29,13 +36,14 @@ const Exam = () => {
     if (selectedDate) {
       const currentDate = selectedDate;
       setDate(currentDate);
-      // ... (restante da lógica para formatar a data)
     }
     toggleDatePicker();
   };
 
   const handleLocationChange = (text) => {
     setLocation(text);
+    console.log(text);
+
   };
 
   const onChange = (event, selectedDate) => {
@@ -55,9 +63,10 @@ const Exam = () => {
     }
   };
 
+  // Função para fazer upload do arquivo para Pinata
   const uploadFileToPinata = async (file) => {
     const apiUrl = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
-    const apiKey = '2950368f2865e792233f'; // Substitua pelo seu próprio API Key da Pinata
+    const apiKey = '2950368f2865e792233f'; // API Key da Pinata
 
     const formData = new FormData();
     formData.append('file', file);
@@ -76,7 +85,6 @@ const Exam = () => {
         const responseData = await response.json();
         setIPFSHASH(responseData.IpfsHash);
         console.log('Arquivo foi pinado no IPFS:', responseData);
-        // Aqui você pode manipular a resposta do IPFS, por exemplo, armazenar o CID em algum lugar ou usá-lo de alguma forma.
       } else {
         console.error('Erro ao pinar o arquivo no IPFS');
       }
@@ -85,104 +93,103 @@ const Exam = () => {
     }
   };
 
-  const handleSubmission = async () => {
-    try {
-      // Upload file to Pinata and obtain IPFS hash
-      if (pickedFile) {
-        await uploadFileToPinata(pickedFile);
-      }
-  
-      // Rest of your code for Ethereum interaction remains the same
-      const formattedDate = date.getDate().toString() +"/"+ date.getUTCMonth.toString() +"/"+ date.getFullYear().toString();
-      console.log("Valores que serão passados para result:", title, doctor, formattedDate, location, ipfsHash);
-  
-      if (window.ethereum) {
-        await window.ethereum.enable();
-        const web3 = new Web3(window.ethereum);
-
-        const contractAddress = '0x4f04c93DB616931973a7865b97be771a6AC7858F'; // Endereço do contrato ExamStorage
-        const contract = new web3.eth.Contract(dataABI, contractAddress);
-
-        const accounts = await web3.eth.getAccounts();
-        const senderAddress = accounts[0];
-
-        // Estimate gas
-        const estimatedGas = await contract.methods
-          .addExam(title, doctor, formattedDate, location, ipfsHash)
-          .estimateGas({
-            from: senderAddress,
-          });
-
-        // Send transaction
-        const result = await contract.methods
-          .addExam(title, doctor, formattedDate, location, ipfsHash)
-          .send({
-            from: senderAddress,
-            gas: estimatedGas,
-        });
-
-      console.log('Transaction items', result);
-      console.log('Transaction hash:', result.transactionHash);
-    } else {
-      console.error('MetaMask not available');
-    }
-  } catch (error) {
-    console.error('Error during submission:', error);
-  }
-};
-
-
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Título do Exame</Text>
-        <TextInput
-          style={styles.input}
-          value={title}
-          onChangeText={handleTitleChange}
-          placeholder="Título do Exame"
-        />
-      </View>
-      
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Médico Responsável</Text>
-        <TextInput
-          style={styles.input}
-          value={doctor}
-          onChangeText={handleDoctorChange}
-          placeholder="Médico Responsável"
-        />
-      </View>
-      
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Data do Exame</Text>
-        {/* Restante do código para o campo de data */}
-      </View>
-      
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Local Realizado</Text>
-        <TextInput
-          style={styles.input}
-          value={location}
-          onChangeText={handleLocationChange}
-          placeholder="Consultório Médico"
-        />
-      </View>
+    // Função para lidar com a submissão do formulário
+    const handleSubmission = async () => {
+      try {
+        // Upload file to Pinata and obtain IPFS hash
+        if (pickedFile) {
+          await uploadFileToPinata(pickedFile);
+        }
     
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}></Text>
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={handleFileChange}
-        />
-      </View>
-
-      <TouchableOpacity onPress={handleSubmission}>
-        <Text>Submeter</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
-  );
-};
-
-export default Exam;
+        // Formatar a data para o padrão necessário
+        const formattedDate = date.getDate().toString() +"/"+ date.getUTCMonth().toString() +"/"+ date.getFullYear().toString();
+   
+        if (window.ethereum) {
+          await window.ethereum.enable();
+          const web3 = new Web3(window.ethereum);
+  
+          const contractAddress = '0x4f04c93DB616931973a7865b97be771a6AC7858F'; // Endereço do contrato ExamStorage
+          const contract = new web3.eth.Contract(dataABI, contractAddress);
+  
+          const accounts = await web3.eth.getAccounts();
+          const senderAddress = accounts[0];
+  
+          // Estimate gas
+          const estimatedGas = await contract.methods
+            .addExam(title, doctor, formattedDate, location, ipfsHash)
+            .estimateGas({
+              from: senderAddress,
+            });
+  
+          // Enviar os dados para o contrato
+          const result = await contract.methods
+            .addExam(title, doctor, formattedDate, location, ipfsHash)
+            .send({
+              from: senderAddress,
+              gas: estimatedGas,
+          });
+      } else {
+        console.error('MetaMask not available');
+      }
+    } catch (error) {
+      console.error('Error during submission:', error);
+    }
+  };
+  
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+        {/* Campos do formulário */}
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Título do Exame</Text>
+          <TextInput
+            style={styles.input}
+            value={title}
+            onChangeText={handleTitleChange}
+            placeholder="Título do Exame"
+          />
+        </View>
+        
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Médico Responsável</Text>
+          <TextInput
+            style={styles.input}
+            value={doctor}
+            onChangeText={handleDoctorChange}
+            placeholder="Médico Responsável"
+          />
+        </View>
+        
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Data do Exame</Text>
+          {/* Restante do código para o campo de data */}
+        </View>
+        
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Local Realizado</Text>
+          <TextInput
+            style={styles.input}
+            value={location}
+            onChangeText={handleLocationChange}
+            placeholder="Consultório Médico"
+          />
+        </View>
+      
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}></Text>
+          <input
+            type="file"
+            accept=".pdf"
+            onChange={handleFileChange}
+          />
+        </View>
+  
+        {/* Botão de submissão */}
+        <TouchableOpacity onPress={handleSubmission}>
+          <Text>Submeter</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    );
+  };
+  
+  // Exportar o componente Exam como padrão
+  export default Exam;
